@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {% for task in tasks %}
+            <p class="tasks">
+                {% if current_user.is_authenticated and current_user == task.user %}
+                    <div>
+                        <a href='/tasks_delete/{{ task.id }}' class='btn btn-danger'>
+                        Удалить
+                        </a>
+                        {{ task.task }}
+                    </div>
+                {% endif %}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.new_task_field(class="form-control", type="text") }}<br>
+        {% for error in form.new_task_field.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.submit(type="submit", class="btn btn-primary") }}
+    </p>
+    {{message}}
+</form>
+{% endblock %}
